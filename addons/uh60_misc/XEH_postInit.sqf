@@ -137,8 +137,7 @@ private _editNumbersRight = ["vtx_uh60_paintNumbersRight" + (str random 1), "Cha
 private _customizationOptions = [
 	["vtx_fuelprobe", "Fuel Probe", ["vtx_fuelProbe", "fuelProbe_show", 1, 0, 7], {[1.3,4.1,-1.2]}],
 	["vtx_hoist", "Rescue Hoist", ["vtx_hoist", "Hoist_hide", 0, 1, 3], {[1.1,1.9,0.35]}],
-	["vtx_cockpitdoors", "Cockpit Doors", ["vtx_cockpitdoors", "Cockpitdoors_Hide", 0, 1, 3], {[1.1,5.1,-0.7]}],
-	["vtx_erfs", "ERFS Tank", ["vtx_erfs", "ERFS_show", 1, 0, 3], {[-0.046875,0.672591,-0.272467]}]
+	["vtx_cockpitdoors", "Cockpit Doors", ["vtx_cockpitdoors", "Cockpitdoors_Hide", 0, 1, 3], {[1.1,5.1,-0.7]}]
 ];
 
 {
@@ -166,6 +165,52 @@ private _customizationOptions = [
 	["vtx_h60_base",0,[],(_addOption call ace_interact_menu_fnc_createAction), true] call ace_interact_menu_fnc_addActionToClass;
 	["vtx_h60_base",0,[],(_removeOption call ace_interact_menu_fnc_createAction), true] call ace_interact_menu_fnc_addActionToClass;
 } forEach _customizationOptions;
+
+private _erfsAddParams = ["vtx_erfs", "ERFS_show", 1, 0, 3];
+private _erfsPosition = {[-0.046875,0.672591,-0.272467]};
+#define ERFS_ACTION_TIME 5
+private _erfsAddOption = [
+	"vtx_erfs_attach",
+	"Attach ERFS Tank",
+	"",
+	{
+		params ["_target", "_player", "_params"];
+		[ERFS_ACTION_TIME, [_target, _player, _params], {
+			params ["_args"];
+			_args params ["_target", "_player", "_params"];
+			[_target, _player, _params] call vtx_uh60_misc_fnc_addCustomization;
+		}] call ace_common_fnc_progressBar;
+	},
+	vtx_uh60_misc_fnc_canCustomizeVariant,
+	nil,
+	_erfsAddParams,
+	_erfsPosition,
+	4.5,
+	[false,false,false,false,false],
+	{}
+];
+private _erfsRemoveOption = [
+	"vtx_erfs_remove",
+	"Remove ERFS Tank",
+	"",
+	{
+		params ["_target", "_player", "_params"];
+		[ERFS_ACTION_TIME, [_target, _player, _params], {
+			params ["_args"];
+			_args params ["_target", "_player", "_params"];
+			[_target, _player, _params] call vtx_uh60_misc_fnc_removeCustomization;
+		}] call ace_common_fnc_progressBar;
+	},
+	vtx_uh60_misc_fnc_canRemoveCustomization,
+	nil,
+	_erfsAddParams,
+	_erfsPosition,
+	4.5,
+	[false,false,false,false,false],
+	{}
+];
+["vtx_h60_base",0,[],(_erfsAddOption call ace_interact_menu_fnc_createAction), true] call ace_interact_menu_fnc_addActionToClass;
+["vtx_h60_base",0,[],(_erfsRemoveOption call ace_interact_menu_fnc_createAction), true] call ace_interact_menu_fnc_addActionToClass;
 
 _action = ["vtx_skis_add","Install Skis", "", {(_target) animateSource ["skis_show", 1];}, {((_target) animationSourcePhase "skis_show") < 0.1}, nil, [parameters], [1.33319,2.8541,-1.6735]] call ace_interact_menu_fnc_createAction;
 ["vtx_H60_base", 0, [], _action, true] call ace_interact_menu_fnc_addActionToClass;
