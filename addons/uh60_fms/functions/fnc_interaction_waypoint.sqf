@@ -11,8 +11,16 @@ params ["_vehicle", "_action", "_value", ["_pageData", nil]];
 switch (_action) do {
     case "cycle": {
         private _group = group player;
-        private _waypointIndex = currentWaypoint _group;
-        [player, "", (_waypointIndex + _value)] call vtx_uh60_fms_fnc_selectWaypoint;
+        private _count = count (waypoints _group);
+
+        private _current = missionNamespace getVariable ["vtx_uh60_fms_wpSelection", currentWaypoint _group];
+        private _new = _current + _value;
+        if (_new < -1) then { _new = _count - 1 };
+        if (_new >= _count) then { _new = -1 };
+        vtx_uh60_fms_wpSelection = _new;
+        if (_new > -1) then {
+            [player, "", _new] call vtx_uh60_fms_fnc_selectWaypoint;
+        };
     };
     case "import": {
         private _waypoints = waypoints group player;
@@ -75,35 +83,35 @@ switch (_action) do {
         };
         _vehicle setUserMFDvalue _pageData;
     };
-    case "send": { 
+    case "send": {
         private _wayPoint = [group player, currentWaypoint group player];
         private _position = waypointPosition _wayPoint;
 
-        private _sender = profileName; 
-        private _recipient = "ALL"; 
-        private _id = "XMIT WAYPT"; 
+        private _sender = profileName;
+        private _recipient = "ALL";
+        private _id = "XMIT WAYPT";
         private _messageContent = [
             mapGridPosition _position,
             str (_position # 2),
             waypointDescription _wayPoint,
             "AUTO SENT FROM FMS",
-            "", 
-            "", 
-            "", 
-            "", 
-            "", 
+            "",
+            "",
+            "",
+            "",
+            "",
             ""
-        ]; 
-        private _message = [_id, _sender, _recipient, 2, _messageContent, [_position], [[_timestamp, _sender, "SENT"]]]; 
+        ];
+        private _message = [_id, _sender, _recipient, 2, _messageContent, [_position], [[_timestamp, _sender, "SENT"]]];
         _message call vtx_uh60_jvmf_fnc_attemptSendMessage;
     };
-    case "slew_flir_waypt": { 
+    case "slew_flir_waypt": {
         private _wayPoint = [group player, currentWaypoint group player];
         private _position = waypointPosition _wayPoint;
         _vehicle setPilotCameraTarget (AGLtoASL (_position));
         [getPilotCameraDirection _vehicle, AGLtoASL _position] call vtx_uh60_flir_fnc_syncPilotCamera;
     };
-    case "slew_flir": { 
+    case "slew_flir": {
         if (isNil "fms_locations_selected") exitWith {};
         private _location = fms_locations_selected;
         _vehicle setPilotCameraTarget (AGLtoASL (locationPosition _location));
