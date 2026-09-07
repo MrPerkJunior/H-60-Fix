@@ -85,6 +85,24 @@ addUserActionEventHandler ["hideMap", "Activate", {
     [241, [false, true, false]],false
 ] call CBA_fnc_addKeybind;
 
+[
+    "UH-60M Blackhawk","vtx_uh60_flir_tdcWaypointSet","TDC Waypoint Set",
+    {
+      call vtx_uh60_flir_fnc_keyTdcWaypointSet;
+      false
+    },{},
+    [-1, [false, false, false]],false
+] call CBA_fnc_addKeybind;
+
+[
+    "UH-60M Blackhawk","vtx_uh60_flir_tdcSlewWaypoint","TDC Slew Waypoint",
+    {
+      call vtx_uh60_flir_fnc_keyTdcSlewWaypoint;
+      false
+    },{},
+    [-1, [false, false, false]],false
+] call CBA_fnc_addKeybind;
+
 /* Use base game keybind
 [
     "UH-60M Blackhawk","vtx_uh60_flir_c_stabilize","FLIR Stabilize", // Ctrl + T
