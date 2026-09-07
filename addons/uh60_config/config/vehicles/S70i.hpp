@@ -1,8 +1,10 @@
-// vtx_S70M — the civilian S-70i (unarmed). Lifted verbatim from
-// cfgVehicles.hpp into its own file (Phase 1 PR A); include path adjusted
-// one level for the vehicles\ folder.
-class vtx_S70M: vtx_H60_base {
+// vtx_S70i — the civilian S-70i (unarmed). Lifted verbatim from
+// cfgVehicles.hpp into its own file (Phase 1 PR A). Renamed from vtx_S70M
+// (dev tester report, Riverman flat-rename ruling 2026-09-07 - no compat
+// stub; civilian variant, mission breakage accepted).
+class vtx_S70i: vtx_H60_base {
     displayName = "S-70i";
+    editorPreview = "z\vtx\addons\UH60\Data\Preview\vtx_S70i.jpg";
     crew = "C_man_pilot_F";
     side = 3;
     faction = "CIV_F";
@@ -41,4 +43,4 @@ class vtx_S70M: vtx_H60_base {
       class CopilotTurret: CopilotTurret {};
     };
     #include "..\vehicleTransportSlick.hpp"
-}; // vtx_S70M
+}; // vtx_S70i
