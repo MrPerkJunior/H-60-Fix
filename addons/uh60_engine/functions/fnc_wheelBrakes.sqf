@@ -17,6 +17,10 @@ if (count _this > 2) then {
     _isEnabled = (_this # 1);
 };
 
+if (!difficultyEnabledRTD) then {
+    [_vehicle, _isEnabled] remoteExec ["setParkingBrake", _vehicle];
+};
+
 if (_isEnabled) then {
     [(_this # 0),"PARKING BRAKE",{},false,false] call vtx_uh60_cas_fnc_registerCautionAdvisory;
 } else {
