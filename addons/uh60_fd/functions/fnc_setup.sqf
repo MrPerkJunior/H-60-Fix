@@ -25,6 +25,16 @@ SET("collectiveHeld", 0);
 [_vehicle, "hdg", 30, 0, 0] call hct_util_fnc_pidCreate;
 [_vehicle, "roll", 10, 0, 0] call hct_util_fnc_pidCreate;
 [_vehicle, "drift", 1, 0, 0] call hct_util_fnc_pidCreate;
+
+if (isNil {_vehicle getVariable "vtx_uh60_fd_localEH"}) then {
+    _vehicle setVariable ["vtx_uh60_fd_localEH", _vehicle addEventHandler ["Local", {
+        params ["_vehicle", "_isLocal"];
+        if (_isLocal) then {
+            { [_vehicle, _x] call hct_util_fnc_pidReset } forEach
+                ["collective", "collectiveSFM", "ias", "pitch", "hdg", "roll", "drift"];
+        };
+    }]];
+};
 SET("maxCollectiveForce", 3000);
 SET("maxPitchTorque", 2000);
 SET("maxRudderTorque", 800);

@@ -25,6 +25,13 @@ if (!_autohoverKeyDetected) then {
 
 if (!isEngineOn _vehicle) exitWith {};
 if (!local _vehicle) exitWith {};
+
+private _airborne = !isTouchingGround _vehicle;
+if (GET("wasAirborne",false) && {!_airborne}) then {
+    { [_vehicle, _x] call hct_util_fnc_pidReset } forEach
+        ["collective", "collectiveSFM", "ias", "pitch", "hdg", "roll", "drift"];
+};
+SET("wasAirborne", _airborne);
 if (isAutoHoverOn _vehicle && !(_vehicle getVariable ["hvr", false])) exitWith {
     player action ["AutoHoverCancel", _vehicle];
 };
