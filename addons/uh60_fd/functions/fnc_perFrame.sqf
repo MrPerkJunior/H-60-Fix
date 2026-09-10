@@ -28,6 +28,9 @@ if (!local _vehicle) exitWith {};
 
 private _airborne = !isTouchingGround _vehicle;
 if (GET("wasAirborne",false) && {!_airborne}) then {
+    if (vtx_uh60_ui_showDebugMessages) then {
+        diag_log format ["VTX FD PID RESET (touchdown) | %1", _vehicle];
+    };
     { [_vehicle, _x] call hct_util_fnc_pidReset } forEach
         ["collective", "collectiveSFM", "ias", "pitch", "hdg", "roll", "drift"];
 };

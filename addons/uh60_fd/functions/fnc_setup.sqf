@@ -30,6 +30,9 @@ if (isNil {_vehicle getVariable "vtx_uh60_fd_localEH"}) then {
     _vehicle setVariable ["vtx_uh60_fd_localEH", _vehicle addEventHandler ["Local", {
         params ["_vehicle", "_isLocal"];
         if (_isLocal) then {
+            if (vtx_uh60_ui_showDebugMessages) then {
+                diag_log format ["VTX FD PID RESET (locality gained) | %1", _vehicle];
+            };
             { [_vehicle, _x] call hct_util_fnc_pidReset } forEach
                 ["collective", "collectiveSFM", "ias", "pitch", "hdg", "roll", "drift"];
         };

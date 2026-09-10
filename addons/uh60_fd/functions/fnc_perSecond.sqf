@@ -20,3 +20,15 @@ if (isEngineOn _vehicle) then {
 if (!isTouchingGround _vehicle) then {
 	SET("flightTime", GET("flightTime",0) + 1);
 };
+
+if (vtx_uh60_ui_showDebugMessages) then {
+	private _pidDump = ["collective", "collectiveSFM", "ias", "pitch", "hdg", "roll", "drift"] apply {
+		private _pid = _vehicle getVariable [format ["hct_pid_%1", _x], []];
+		format ["%1 e:%2 i:%3", _x, (_pid param [3, 0]) toFixed 4, (_pid param [4, 0]) toFixed 4]
+	};
+	diag_log format [
+		"VTX FD PID | %1 | local:%2 wow:%3 eng:%4 | %5",
+		_vehicle, local _vehicle, isTouchingGround _vehicle, isEngineOn _vehicle,
+		_pidDump joinString " | "
+	];
+};
