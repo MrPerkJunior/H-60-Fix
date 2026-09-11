@@ -35,21 +35,6 @@ class Draw {
 		condition = COND_ISNUMBER(MFD_PAGE_INDEX,MFD_PAGE_JVMF);
 		#include "pages\jvmf_draw.hpp"
 	}; // jvmf
-	class flir_inop {
-		condition = COND_ISNUMBER(MFD_PAGE_INDEX,MFD_PAGE_FLIR);
-		class outline {
-			type="line";
-			width = 2;
-			points[] ={
-				{{0.5 - 0.16, 0.5 - 0.01},1},
-				{{0.5 + 0.16, 0.5 - 0.01},1},
-				{{0.5 + 0.16, 0.5 + 0.05},1},
-				{{0.5 - 0.16, 0.5 + 0.05},1},
-				{{0.5 - 0.16, 0.5 - 0.01},1}
-			};
-		};
-		TEXT_MID_SCALED(FLIR_INOP,0.5,0.5,"INOP - NOT INSTALLED",0.04)
-	}; // flir_inop
 	class ccfs {
 		condition = COND_ISNUMBER(MFD_PAGE_INDEX,MFD_PAGE_CCFS);
 		#include "pages\ccfs_draw.hpp"
